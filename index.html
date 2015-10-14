@@ -15,10 +15,41 @@
   <body>
     <script src="https://code.jquery.com/jquery-2.1.4.min.js"></script> <!-- adds the jquery script -->
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script> <!-- adds the bootstrap script -->
-    <div class="page-header">
-      <h1 style="text-align: center;">Gillies Games</h1>
+    <script>
+      var menu;
+      var origOffsetY;
+      $(document).ready(function() { // thanks to Yeco at stack overflow.com (http://stackoverflow.com/questions/21301316/how-to-bootstrap-navbar-static-to-fixed-on-scroll)
+        menu = $('.menu');
+        origOffsetY = menu.offset().top;
+        
+        function scroll() {
+          if ($(window).scrollTop() >= origOffsetY) {
+            $('.menu').addClass('sticky');
+            $('.content').addClass('menu-padding');
+          } else {
+            $('.menu').removeClass('sticky');
+            $('.content').removeClass('menu-padding');
+          }
+        }
+        
+        document.onscroll = scroll;
+      })
+    </script>
+    <div class="container">
+      <div class="page-header">
+        <h1 style="text-align: center;">Gillies Games</h1>
+      </div>
+      <nav class="menu">
+        <ul class="nav nav-pills nav-stacked">
+          <li role="presentation" class="active"><a href="#">Home</a></li>
+          <li role="presentation"></li>
+        </ul>
+      </nav>
+      <div class="content">
+        
+      </div>
     </div>
   </body>
 </html>
 
-<!-- 15/10/2015 Made all text use the Calibri font -->
+<!-- 15/10/2015 Added the sticky nav menu -->

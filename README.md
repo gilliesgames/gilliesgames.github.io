@@ -1,2 +1,8 @@
 # gilliesgames.github.io
-A site that contains the games made by gillies games
+This is the main site for the gillies games company.
+
+Thanks to the Bootstrap creators for bootstrap and its theme (http://getbootstrap.com)
+
+Thanks to Nicolas Gallagher and Jonathan Nea for normalize.css (http://necolas.github.io/normalize.css)
+
+Visit the site at http://gilliesgames.github.io

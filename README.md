@@ -5,4 +5,6 @@ Thanks to the Bootstrap creators for bootstrap and its theme (http://getbootstra
 
 Thanks to Nicolas Gallagher and Jonathan Nea for normalize.css (http://necolas.github.io/normalize.css)
 
+Thanks to The Jquery Foundation for Jquery (https://jquery.com)
+
 Visit the site at http://gilliesgames.github.io

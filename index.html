@@ -2,6 +2,7 @@
 <html>
   <head>
     <title>Gillies Games</title>
+    <script src="https://code.jquery.com/jquery-2.1.4.min.js"></script> <!-- adds the jquery script -->
     <meta name="viewport" content="width=device-width, initial-scale=1"> <!-- adds bootstrap viewport for touch zooming on touch devices -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/3.0.3/normalize.css"> <!-- adds normalize.css -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css"> <!-- adds the bootstrap css -->
@@ -13,12 +14,11 @@
     </style>
   </head>
   <body>
-    <script src="https://code.jquery.com/jquery-2.1.4.min.js"></script> <!-- adds the jquery script -->
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script> <!-- adds the bootstrap script -->
     <script>
       var menu;
       var origOffsetY;
-      $(document).ready(function() { // thanks to Yeco at stack overflow.com (http://stackoverflow.com/questions/21301316/how-to-bootstrap-navbar-static-to-fixed-on-scroll)
+      $(document).ready(function() { // sticky nav menu thanks to Yeco at stack overflow.com (http://stackoverflow.com/questions/21301316/how-to-bootstrap-navbar-static-to-fixed-on-scroll)
         menu = $('.menu');
         origOffsetY = menu.offset().top;
         

@@ -11,25 +11,32 @@
       * {
         font-family: Calibri, sans-serif;
       }
-      .menu {
-        width: 50px;
-      }
     </style>
   </head>
   <body>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script> <!-- adds the bootstrap script -->
     <div class="container">
-      <div class="page-header">
-        <h1 style="text-align: center;">Gillies Games</h1>
+      <div class="row">
+        <div class=".col-xs-12">
+          <div class="page-header">
+            <h1 style="text-align: center;">Gillies Games</h1>
+          </div>
+        </div>
       </div>
-      <nav class="menu">
-        <ul class="nav nav-pills nav-stacked">
-          <li role="presentation" class="active"><a href="#">Home</a></li>
-          <li role="presentation"></li>
-        </ul>
-      </nav>
-      <div class="content">
-        <p>Here at gillies games we strive to create great games that appeal to gamers of all ages.</p>
+      <div class="row">
+        <div class=".col-xs-3">
+          <nav class="menu">
+            <ul class="nav nav-pills nav-stacked">
+              <li role="presentation" class="active"><a href="#">Home</a></li>
+              <li role="presentation"></li>
+            </ul>
+          </nav>
+        </div>
+        <div class=".col-xs-9">
+          <div class="content">
+            <p>Here at gillies games we strive to create great games that appeal to gamers of all ages.</p>
+          </div>
+        </div>
       </div>
     </div>
     <script type="text/javascript">
@@ -55,4 +62,4 @@
   </body>
 </html>
 
-<!-- 15/10/2015 Added first sentence and updated nav menu width -->
+<!-- 15/10/2015 added bootstrap columns and rows -->

@@ -1,63 +1,61 @@
 <!DOCTYPE html> 
-2 <html> 
-3   <head> 
-4     <title>Gillies Games</title> 
-5     <script type="text/javascript" src="https://code.jquery.com/jquery-2.1.4.min.js"></script> <!-- adds the jquery script --> 
-6     <meta name="viewport" content="width=device-width, initial-scale=1"> <!-- adds bootstrap viewport for touch zooming on touch devices --> 
-7     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/3.0.3/normalize.css"> <!-- adds normalize.css --> 
-8     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css"> <!-- adds the bootstrap css --> 
-9     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap-theme.min.css"> <!-- adds the bootstrap theme --> 
-10     <style> 
-11       * { 
-12         font-family: Calibri, sans-serif; 
-13       } 
-14     </style> 
-15   </head> 
-16   <body> 
-17     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script> <!-- adds the bootstrap script --> 
-18     <div class="container"> 
-19       <div class="row"> 
-20         <div class=".col-xs-12"> 
-21           <div class="page-header"> 
-22             <h1 style="text-align: center;">Gillies Games</h1> 
-23           </div> 
-24         </div> 
-25       </div> 
-26       <div class="row"> 
-27         <div class=".col-xs-3"> 
-28           <nav class="menu"> 
-29             <ul class="nav nav-pills nav-stacked pull-left"> 
-30               <li role="presentation"><a href="index.html">Home</a></li>
-31               <li role="presentation" class="active">Element Master</li>
-32             </ul> 
-33           </nav> 
-34         </div> 
-35         <div class=".col-xs-9"> 
-36           <div class="content"> 
-37             <p>Here at gillies games we strive to create great games that appeal to gamers of all ages.</p> 
-38           </div> 
-39         </div> 
-40       </div> 
-41     </div> 
-42     <script type="text/javascript"> 
-43       var menu; 
-44       var origOffsetY; 
-45       $(document).ready(function() { // sticky nav menu thanks to Yeco at stack overflow.com (http://stackoverflow.com/questions/21301316/how-to-bootstrap-navbar-static-to-fixed-on-scroll) 
-46         menu = $('.menu'); 
-47         origOffsetY = menu.offset().top; 
-48          
-49         function scroll() { 
-50           if ($(window).scrollTop() >= origOffsetY) { 
-51             $('.menu').addClass('sticky'); 
-52             $('.content').addClass('menu-padding'); 
-53           } else { 
-54             $('.menu').removeClass('sticky'); 
-55             $('.content').removeClass('menu-padding'); 
-56           } 
-57         } 
-58          
-59         document.onscroll = scroll; 
-60       }) 
-61     </script> 
-62   </body> 
-63 </html> 
+<html> 
+  <head> 
+    <title>Gillies Games</title> 
+    <script type="text/javascript" src="https://code.jquery.com/jquery-2.1.4.min.js"></script> <!-- adds the jquery script --> 
+    <meta name="viewport" content="width=device-width, initial-scale=1"> <!-- adds bootstrap viewport for touch zooming on touch devices --> 
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/3.0.3/normalize.css"> <!-- adds normalize.css --> 
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css"> <!-- adds the bootstrap css --> 
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap-theme.min.css"> <!-- adds the bootstrap theme --> 
+    <style> 
+      * { 
+        font-family: Calibri, sans-serif; 
+      } 
+    </style> 
+  </head> 
+  <body> 
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script> <!-- adds the bootstrap script --> 
+    <div class="container"> 
+      <div class="row"> 
+        <div class=".col-xs-12"> 
+          <div class="page-header"> 
+            <h1 style="text-align: center;">Gillies Games</h1> 
+          </div> 
+        </div> 
+      </div> 
+      <div class="row"> 
+        <div class=".col-xs-3"> 
+          <nav class="menu"> 
+            <ul class="nav nav-pills nav-stacked pull-left"> 
+              <li role="presentation"><a href="index.html">Home</a></li>
+              <li role="presentation" class="active">Element Master</li>
+            </ul> 
+          </nav> 
+        </div> 
+        <div class=".col-xs-9"> 
+          <div class="content"> 
+            <p>Here at gillies games we strive to create great games that appeal to gamers of all ages.</p> 
+          </div> 
+        </div> 
+      </div> 
+    </div> 
+    <script type="text/javascript"> 
+      var menu; 
+      var origOffsetY; 
+      $(document).ready(function() { // sticky nav menu thanks to Yeco at stack overflow.com (http://stackoverflow.com/questions/21301316/how-to-bootstrap-navbar-static-to-fixed-on-scroll) 
+        menu = $('.menu'); 
+        origOffsetY = menu.offset().top; 
+        function scroll() { 
+          if ($(window).scrollTop() >= origOffsetY) { 
+            $('.menu').addClass('sticky'); 
+            $('.content').addClass('menu-padding'); 
+          } else { 
+            $('.menu').removeClass('sticky'); 
+            $('.content').removeClass('menu-padding'); 
+          } 
+        } 
+        document.onscroll = scroll; 
+      }) 
+    </script> 
+  </body> 
+</html>

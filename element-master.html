@@ -2,15 +2,161 @@
 <html> 
   <head> 
     <title>Gillies Games</title> 
-    <script type="text/javascript" src="https://code.jquery.com/jquery-2.1.4.min.js"></script> <!-- adds the jquery script --> 
+    <script type="text/javascript" src="https://code.jquery.com/jquery-2.1.4.min.js"></script> <!-- adds the jquery script -->
+    <script type="text/javascript" src="https://code.jquery.com/ui/1.11.4/jquery-ui.min.js"></script> <!-- adds the jquery ui script -->
     <meta name="viewport" content="width=device-width, initial-scale=1"> <!-- adds bootstrap viewport for touch zooming on touch devices --> 
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/3.0.3/normalize.css"> <!-- adds normalize.css --> 
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css"> <!-- adds the bootstrap css --> 
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap-theme.min.css"> <!-- adds the bootstrap theme --> 
-    <style> 
+    <style>
       * { 
         font-family: Calibri, sans-serif; 
-      } 
+      }
+      #container {
+        position: relative;
+        width: 834px;
+        height: 424px;
+      }
+      #hint-output {
+				position: absolute;
+				left: 0px;
+				top: 0px;
+				height: 20px;
+				padding: 0px;
+				font-size: 14px;
+				width: 400px;
+				border-color: transparent;
+				background-color: transparent;
+			}
+			#timeline {
+				float: left;
+				margin-top: 24px;
+				width: 217px;
+				height: 400px;
+    		overflow-y: auto;
+			}
+			#drag-area {
+				position: relative;
+				float: left;
+				margin-top: 24px;
+				width: 400px;
+				height: 400px;
+				background: #D0D0D0;
+			}
+			.event {
+				font-size: 12px;
+				margin-top: 2px;
+				margin-bottom: 3px;
+			}
+			.drag {
+				display: table;
+				position: absolute;
+				width: 50px;
+				height: 50px;
+				background-color: red;
+				top: 8px;
+				cursor: move;
+				cursor: grab;
+				cursor: -moz-grab;
+				cursor: -webkit-grab;
+			}
+			.drag:active {
+				cursor: grabbing;
+				cursor: -moz-grabbing;
+				cursor: -webkit-grabbing;
+			}
+			#search {
+				position: absolute;
+				float: top;
+				padding: 0px;
+				height: 20px;
+				font-size: 14px;
+				width: 196px;
+			}
+			#input-area {
+				position: relative;
+				float: left;
+				width: 217px;
+				margin-top: 24px;
+				height: 400px;
+				background-color: #C0C0C0;
+    		overflow-y: auto;
+			}
+			.noselect {
+				-webkit-touch-callout: none;
+				-webkit-user-select: none;
+				-khtml-user-select: none;
+				-moz-user-select: none;
+				-ms-user-select: none;
+				user-select: none;
+			}
+			.input {
+    		position: absolute;
+				width: 50px;
+				height: 50px;
+				background-color: red;
+			}
+  		#reset {
+    		background-color: red;
+				position: absolute;
+				width: 50px;
+				height: 50px;
+				top: 350px;
+  		}
+			#hint {
+				position: absolute;
+				background-color: yellow;
+				width: 50px;
+				height: 50px;
+				left: 350px;
+			}
+  		.gap-hider {
+    		width: 17px;
+				float: right;
+    		height: 400px;
+    		background-color: white;
+  		}
+			.drag-text {
+				display: inline-block;
+				line-height: 15px;
+				display: table-cell;
+				vertical-align: middle;
+				text-align: center;
+				word-break: break-all;
+				padding: 0px;
+			}
+			.button-text {
+				line-height: 15px;
+				display: table-cell;
+        vertical-align: middle;
+				text-align: center;
+        word-break: break-all;
+        padding: 0px;
+			}
+			.button {
+				text-align: center;
+        display: table;
+				cursor: hand;
+				cursor: pointer;
+			}
+      #count {
+        margin-left: auto;
+        margin-right: auto;
+        margin-top: 365px;
+				cursor: default;
+      }
+      #count-text {
+        text-align: center;
+        font-size: 24px;
+      }
+			#bin {
+				position: absolute;
+				background-color: red;
+				width: 50px;
+				height: 50px;
+				left: 350px;
+				top: 350px;
+			}
     </style> 
   </head> 
   <body> 
@@ -34,7 +180,33 @@
         </div> 
         <div class=".col-xs-9"> 
           <div class="content"> 
-            <p>Here at gillies games we strive to create great games that appeal to gamers of all ages.</p> 
+            <p>Element Master is a game that i made using jquery and html that involves combining the 4 basic elements (Air, Earth, Fire Water) together to eventually make loads of other elements. Press the an element on the right to spawn it on the left then drag and drop the spawned element onto another spawned element to create a new element. Drag and drop a spawned element onto the bin to get rid of it. Type an element name in the search bar to easily find it. Press the hint button to get a hint and press the reset button to reset your progress (careful this is permanent).</p>
+            <div id="container">
+              <input id="hint-output" disabled type="text">
+              <div id="drag-area">
+                <div id="bin" class="button">
+                  <p class="button-text noselect">BIN</p>
+                </div>
+                <div id="reset" class="button">
+                  <p class="button-text noselect">RESET</p>
+                </div>
+                <div id="hint" class="button">
+                  <p class="button-text noselect">HINT</p>
+                </div>
+                <div id="count">
+                  <p id="count-text" class="noselect"></p>
+                </div>
+              </div>
+              <input id="search" type="text" placeholder="search">
+              <div id="input-area">
+                <div class="gap-hider">
+                </div>
+              </div>
+              <div id="timeline">
+                <div class="gap-hider">
+                </div>
+              </div>
+            </div>
           </div> 
         </div> 
       </div> 
@@ -57,5 +229,453 @@
         document.onscroll = scroll; 
       }) 
     </script> 
+    <script type="text/javascript">
+      var combinations = [];
+      var allElements = ["Fire", "Water", "Earth", "Air"];
+      var time = 0;
+      function combine(target1, target2, result) {
+        var combination = $(target2).filter(function(index, element) {
+          if (this === target1) {
+            return false;
+          }
+          if ($(this).position().left > $(target1).position().left - 50 && $(this).position().left < $(target1).position().left + 50) {
+            if ($(this).position().top > $(target1).position().top - 50 && $(this).position().top < $(target1).position().top + 50) {
+              return true;
+            } else {
+              return false;
+            }
+          } else {
+            return false;
+          }
+        });
+        var length = combination.length;
+				if (length < 1) {
+					return false;
+				}
+				if (length > 1) {
+          combination = $(combination).eq(0);
+				}
+				if (!$("#" + result).length) {
+					var components = [$(target1).attr("class").split(" ")[1], target2.split(".")[1]];
+					components.sort();
+					var $event = $("<p class='event'>" + components[0] + " + " + components[1] + " &#8594; " + result + "</p>");
+        	$("#timeline").append($event);
+					if (localStorage.getItem("events") != "") {
+						localStorage.setItem("events", localStorage.getItem("events") + " ");
+					}
+					localStorage.setItem("events", localStorage.getItem("events") + components[0] + "+" + components[1] + "+" + result);
+				}
+				$(combination).remove();
+				$(target1).remove();
+				add(result);
+        addInputClick(result);
+				$("#count-text").text($(".input").length + "/" + allElements.length);
+				localStorage.setItem("elements", localStorage.getItem("elements") + " " + result);
+      }
+      function bin(tar) {
+        if ($(tar).position().left > $("#bin").position().left - 50 && $(tar).position().top > $("#bin").position().top - 50) {
+          $(tar).remove();
+        }
+  		}
+      function addInputClick(element) {
+        var ele;
+        if (element) {
+          ele = "#" + element;
+        } else {
+          ele = ".input";
+        }
+        $(ele).click(function(e) {
+          $("#drag-area").append("<div class='drag " + this.id + "' style='left: 0px; top: 0px;'><p class='drag-text'>" + this.id + "</p></div>");
+          $(".drag").draggable({ containment: "#drag-area", cursor: "move", addClasses: false });
+          $("." + this.id).mouseup(function(e) {
+            var $target = this;
+            bin($target);
+            addCombine($target);
+          });
+				});
+      }
+  		function add(element) {
+  		  if ($("#" + element).length) {
+    		  return false;
+    		}
+    		var $inp = $("<div><p>" + element + "</p></div>");
+    		var number_of_inputs = $(".input").length;
+    		$($inp).addClass("input");
+    		$($inp).addClass("noselect");
+				$($inp).addClass("button");
+    		$($inp).attr("id", element);
+    		$($inp).children().addClass("button-text");
+    		if (number_of_inputs == 0) {
+    		  $($inp).css("top", "8px");
+    		} else {
+					var elementArray = [element]
+					$(".input").each(function() {
+					  elementArray.push($(this).attr("id"));
+					});
+					elementArray.sort();
+					var elementsPositioned = 0;
+					while (elementsPositioned < elementArray.length) {
+						if (elementArray[elementsPositioned] === element) {
+							$($inp).css("top", (50 * Math.floor(elementsPositioned / 4)).toString() + "px");
+							switch (elementsPositioned % 4) {
+								case 0:
+									$($inp).css("left", "0px");
+									break;
+								case 1:
+									$($inp).css("left", "50px");
+									break;
+								case 2:
+									$($inp).css("left", "100px");
+									break;
+								case 3:
+									$($inp).css("left", "150px");
+									break;
+							}
+						} else {
+							var id = "#" + elementArray[elementsPositioned];
+							$(id).css("top", (50 * Math.floor(elementsPositioned / 4)).toString() + "px");
+							switch (elementsPositioned % 4) {
+								case 0:
+									$(id).css("left", "0px");
+									break;
+								case 1:
+									$(id).css("left", "50px");
+									break;
+								case 2:
+									$(id).css("left", "100px");
+									break;
+								case 3:
+									$(id).css("left", "150px");
+									break;
+							}
+						}
+						elementsPositioned++;
+					}
+    		}
+    		$("#input-area").append($inp);
+  		}
+      function addCombine(e) {
+        for (var a = 0; a < combinations.length; a++) {
+          if ($(e).hasClass(combinations[a][0])) {
+            combine(e, "." + combinations[a][1], combinations[a][2]);
+          } else if ($(e).hasClass(combinations[a][1])) {
+            combine(e, "." + combinations[a][0], combinations[a][2]);
+          }
+        }
+      }
+			function addElement(component1, component2, ele) {
+				if (allElements.indexOf(ele) === -1) {
+					allElements.push(ele);
+				}
+				combinations.push([component1, component2, ele]);
+			}
+			function searchElements(query) {
+				var query = query || "";
+				var elementArray = [];
+				$(".input").each(function() {
+					elementArray.push($(this).attr("id"));
+				});
+				elementArray.sort();
+				var elementsPositioned = 0;
+				for (var a = 0; a < elementArray.length; a++) {
+					var id = "#" + elementArray[a];
+					if (!query.length) {
+						$(id).css("top", (50 * Math.floor(elementsPositioned / 4)).toString() + "px");
+						switch (elementsPositioned % 4) {
+							case 0:
+								$(id).css("left", "0px");
+								break;
+							case 1:
+								$(id).css("left", "50px");
+								break;
+							case 2:
+								$(id).css("left", "100px");
+								break;
+							case 3:
+								$(id).css("left", "150px");
+								break;
+						}
+						$(id).css("display", "table");
+						elementsPositioned++;
+					} else if (~elementArray[a].toString().toLowerCase().indexOf(query)) {
+						$(id).css("top", (50 * Math.floor(elementsPositioned / 4)).toString() + "px");
+						switch (elementsPositioned % 4) {
+							case 0:
+								$(id).css("left", "0px");
+								break;
+							case 1:
+								$(id).css("left", "50px");
+								break;
+							case 2:
+								$(id).css("left", "100px");
+								break;
+							case 3:
+								$(id).css("left", "150px");
+								break;
+						}
+						$(id).css("display", "table");
+						elementsPositioned++;
+					} else {
+						$(id).hide();
+					}
+				}
+			}
+			function randomInt(min, max) {
+				return Math.floor(Math.random() * (max - min + 1)) + min;
+			}
+			$(document).ready(function() {
+				addElement("Action", "Human", "Job");
+				addElement("Aeroplane", "Aeroplane", "Airport");
+				addElement("Aeroplane", "Airport", "Passenger_Plane");
+				addElement("Aeroplane", "Human", "Pilot");
+				addElement("Aeroplane", "Space", "Spaceship");
+				addElement("Air", "Air", "Atmosphere");
+				addElement("Air", "Car", "Aeroplane");
+				addElement("Air", "Earth", "Dust");
+				addElement("Air", "Energy", "Movement");
+				addElement("Air", "Egg", "Bird");
+				addElement("Air", "Fire", "Heat");
+				addElement("Air", "Lava", "Stone");
+				addElement("Air", "Movement", "Vacuum");
+				addElement("Air", "Mud", "Clay");
+				addElement("Air", "Vacuum", "Space");
+				addElement("Armour", "Sex", "Condom");
+				addElement("Armour", "Sword", "Shield");
+				addElement("Army", "Army", "War");
+				addElement("Atmosphere", "Cloud", "Sky");
+				addElement("Atmosphere", "Steam", "Cloud");
+				addElement("Attraction", "Female", "Male");
+				addElement("Attraction", "Human", "Female");
+				addElement("Baby", "Female", "Mother");
+				addElement("Baby", "Male", "Father");
+				addElement("Baby", "Time", "Toddler");
+				addElement("Beach", "Egg", "Turtle");
+				addElement("Beach", "House", "Beach_House");
+				addElement("Beach", "Tree", "Palm_Tree");
+				addElement("Beach_House", "Human", "Holiday");
+				addElement("Bird", "Fire", "Phoenix");
+				addElement("Biscuit", "Soldier", "ANZAC_Biscuit");
+				addElement("Blade", "Fruit", "Blender");
+				addElement("Blade", "Grass", "Scythe");
+				addElement("Blade", "Metal", "Sword");
+				addElement("Blender", "Fruit", "Juice");
+				addElement("Boat", "Human", "Sailor");
+				addElement("Boat", "Sailor", "Ship");
+				addElement("Brick", "Brick", "Wall");
+				addElement("Brick", "Human", "House");
+				addElement("Bullet", "Metal", "Gun");
+				addElement("Cane", "Field", "Sugar");
+				addElement("Car", "Fuel", "Petrol");
+				addElement("Car", "Movement", "Road");
+				addElement("Car", "Oil", "Fuel");
+				addElement("Car", "Wheel", "Tyre");
+				addElement("Cart", "Oil", "Car");
+				addElement("Child", "Female", "Girl");
+				addElement("Child", "Male", "Boy");
+				addElement("Child", "Time", "Teenager");
+				addElement("Childbirth", "Female", "Baby");
+				addElement("Clay", "Human", "Pot");
+				addElement("Cloud", "Water", "Rain");
+				addElement("Cold", "Fruit", "Orange");
+				addElement("Communication", "Distance", "Phone");
+				addElement("Condom", "Sex", "Protection");
+				addElement("Continent", "Earthquake", "Tectonic_Plate");
+				addElement("Continent", "Ocean", "Planet_Earth");
+				addElement("Day", "Planet_Earth", "Light");
+				addElement("Dog", "House", "Pet");
+				addElement("Dough", "Fire", "Bread");
+				addElement("Dough", "Sugar", "Biscuit");
+				addElement("Drill", "Tools", "Screw");
+				addElement("Dust", "Explosion", "Gunpowder");
+				addElement("Earth", "Earth", "Continent");
+				addElement("Earth", "Farmer", "Field");
+				addElement("Earth", "Fire", "Lava");
+				addElement("Earth", "Human", "Farmer");
+				addElement("Earth", "Life", "Human");
+				addElement("Earth", "Metal", "Shovel");
+				addElement("Earth", "Movement", "Earthquake");
+				addElement("Earth", "Seeds", "Plant");
+				addElement("Earth", "Water", "Mud");
+				addElement("Egg", "Swamp", "Lizard");
+				addElement("Electricity", "Light", "Torch");
+				addElement("Electricity", "Metal", "Cable");
+				addElement("Electricity", "Shovel", "Mining_Drill");
+				addElement("Energy", "Fire", "Plasma");
+				addElement("Energy", "Metal", "Electricity");
+				addElement("Energy", "Planet_Earth", "Life");
+				addElement("Farmer", "Wheat", "Hay");
+				addElement("Female", "Male", "Relationship");
+				addElement("Female", "Sex", "Pregnancy");
+				addElement("Field", "Grass", "Wheat");
+				addElement("Fire", "Job", "Firefighter");
+				addElement("Fire", "Movement", "Explosion");
+				addElement("Fire", "Mud", "Brick");
+				addElement("Fire", "Sand", "Glass");
+				addElement("Fire", "Sky", "Sun");
+				addElement("Fire", "Stone", "Metal");
+				addElement("Fire", "Water", "Energy");
+				addElement("Flour", "Water", "Dough");
+				addElement("Flower", "Sun", "Sunflower");
+				addElement("Forest", "Life", "Wolf");
+				addElement("Fruit", "Palm_Tree", "Coconut");
+				addElement("Fruit", "Tree", "Apple");
+				addElement("Garden", "Human", "Gardener");
+				addElement("Glass", "House", "Greenhouse");
+				addElement("Glass", "Light", "Reflection");
+				addElement("Glass", "Metal", "Window");
+				addElement("Glass", "Reflection", "Mirror");
+				addElement("Glass", "Sand", "Hourglass");
+				addElement("Grass", "Scythe", "Seeds");
+				addElement("Grass", "Sun", "Flower");
+				addElement("Greenhouse", "Plant", "Oxygen");
+				addElement("Gun", "Human", "Hunter");
+				addElement("Gun", "Knight", "Soldier");
+				addElement("Gunpowder", "Metal", "Bullet");
+				addElement("Heat", "Water", "Steam");
+				addElement("House", "Wolf", "Dog");
+				addElement("Human", "Human", "Communication");
+				addElement("Human", "Metal", "Tools");
+				addElement("Human", "Movement", "Action");
+				addElement("Human", "Passenger_Plane", "Traveller");
+				addElement("Human", "Rain", "Cold");
+				addElement("Human", "Relationship", "Sex");
+				addElement("Human", "Shield", "Knight");
+				addElement("Human", "Space", "Astronaut");
+				addElement("Human", "Tree", "Fruit");
+				addElement("Human", "Vacuum", "Vacuum_Cleaner");
+				addElement("Intersection", "Redirection", "Round_A_Bout");
+				addElement("Job", "Passenger_Plane", "Flight_Attendent");
+				addElement("Laser", "Mirror", "Redirection");
+				addElement("Life", "Relationship", "Marriage");
+				addElement("Life", "Stone", "Egg");
+				addElement("Life", "Tree", "Monkey");
+				addElement("Lizard", "Swamp", "Crocodile");
+				addElement("Magnet", "Metal", "Attraction");
+				addElement("Metal", "Movement", "Magnet");
+				addElement("Metal", "Stone", "Armour");
+				addElement("Metal", "Tools", "Blade");
+				addElement("Mining_Drill", "Wood", "Drill");
+				addElement("Movement", "Phone", "Mobile_Phone");
+				addElement("Movement", "Storm", "Wind");
+				addElement("Movement", "Time", "Speed");
+				addElement("Mud", "Rain", "Grass");
+				addElement("Mud", "Water", "Swamp");
+				addElement("Ocean", "Sand", "Beach");
+				addElement("Orange", "Tree", "Orange_Tree");
+				addElement("Oxygen", "Oxygen", "Oxygen_Gas");
+				addElement("Oxygen", "Oxygen_Gas", "Ozone");
+				addElement("Ozone", "Ozone", "Ozone_Layer");
+				addElement("Plant", "Plant", "Garden");
+				addElement("Plant", "Stick", "Cane");
+				addElement("Plant", "Sun", "Tree");
+				addElement("Plasma", "Weapon", "Laser");
+				addElement("Pregnancy", "Time", "Childbirth");
+				addElement("Rain", "Rain", "Storm");
+				addElement("Road", "Road", "Intersection");
+				addElement("Road", "Speed", "Highway");
+				addElement("Sand", "Sand", "Desert");
+				addElement("Seeds", "Sunflower", "Sunflower_Seeds");
+				addElement("Sky", "Sun", "Time");
+				addElement("Soldier", "Soldier", "Army");
+				addElement("Speed", "Time", "Distance");
+				addElement("Stone", "Stone", "Boulder");
+				addElement("Stone", "Water", "Sand");
+				addElement("Stone", "Wheat", "Flour");
+				addElement("Sun", "Time", "Day");
+				addElement("Sunflower_Seeds", "Tools", "Oil");
+				addElement("Teenager", "Time", "Adult");
+				addElement("Time", "Toddler", "Child");
+				addElement("Tools", "Tree", "Wood");
+				addElement("Tools", "Wood", "Wheel");
+				addElement("Tree", "Tree", "Forest");
+				addElement("Tree", "Wood", "Stick");
+				addElement("Wall", "Wall", "Great_Wall");
+				addElement("Water", "Water", "Ocean");
+				addElement("Water", "Wood", "Boat");
+				addElement("Wheel", "Wood", "Cart");
+        if (localStorage.getItem("elements") == null || localStorage.getItem("elements") == "null") {
+					localStorage.setItem("elements", "Fire Water Earth Air");
+    		}
+    		var elementsArray = localStorage.getItem("elements").split(" ");
+    		for (var b = 0; b < elementsArray.length; b++) {
+  			  add(elementsArray[b]);
+    		}
+				if (localStorage.getItem("events") == null || localStorage.getItem("events") == "null") {
+					localStorage.setItem("events", "");
+				}
+				if (localStorage.getItem("events") != "") {
+					var events = localStorage.getItem("events").split(" ");
+					for (var c = 0; c < events.length; c++) {
+						var $event = $("<p class='event'>" + events[c].split("+")[0] + " + " + events[c].split("+")[1] + " &#8594; " + events[c].split("+")[2] + "</p>");
+						$("#timeline").append($event);
+					}
+				}
+				$(".drag").draggable({ containment: "#drag-area", cursor: "move", addClasses: false });
+				$("#reset").click(function(e) {
+  			  localStorage.setItem("elements", null);
+					localStorage.setItem("events", null);
+			    location.reload();
+    		});
+				$("#hint").click(function(e) {
+					var missingElements = [];
+					for (var a = 4; a < allElements.length; a++) {
+						var found = false;
+						$(".input").each(function() {
+							if (allElements[a] == $(this).attr("id")) {
+								found = true;
+							}
+						});
+						if (!found) {
+							missingElements.push(allElements[a]);
+						}
+					}
+					if (missingElements.length) {
+						for (var a = 0; a < missingElements.length; a++) {
+							var hasComponent1 = false;
+							var hasComponent2 = false;
+							for (var b = 0; b < combinations.length; b++) {
+								if (missingElements[a] == combinations[b][2]) {
+									$(".input").each(function() {
+										if (combinations[b][0] == $(this).attr("id")) {
+											hasComponent1 = true;
+										}
+										if (combinations[b][1] == $(this).attr("id")) {
+											hasComponent2 = true;
+										}
+									});
+								}
+							}
+							if (!hasComponent1 || !hasComponent2) {
+								missingElements.splice(a, 1);
+								a--;
+							}
+						}
+					} else {
+						$("#hint-output").val("Congratulations you have finished Element Master");
+						return false;
+					}
+					var hintElement = missingElements[randomInt(0, missingElements.length - 1)];
+					var hintNumber = randomInt(0, 1);
+					for (var a = 0; a < combinations.length; a++) {
+						if (combinations[a][2] == hintElement) {
+							switch (hintNumber) {
+								case 0:
+									$("#hint-output").val(combinations[a][0] + " + ???" + " = " + combinations[a][2]);
+									break;
+								case 1:
+									$("#hint-output").val("??? + " + combinations[a][1] + " = " + combinations[a][2]);
+									break;
+							}
+						}
+					}
+				});
+        var count = $(".input").length;
+        $("#count-text").text(count + "/" + allElements.length);
+        $("#search").on("input", function(e) {
+					searchElements($("#search").val().toLowerCase());
+				});
+				addInputClick();
+			});
+    </script>
   </body> 
 </html>

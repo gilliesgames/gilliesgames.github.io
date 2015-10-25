@@ -39,26 +39,6 @@
         </div>
       </div>
     </div>
-    <script type="text/javascript">
-      var menu;
-      var origOffsetY;
-      $(document).ready(function() { // sticky nav menu thanks to Yeco at stack overflow.com (http://stackoverflow.com/questions/21301316/how-to-bootstrap-navbar-static-to-fixed-on-scroll)
-        menu = $('.menu');
-        origOffsetY = menu.offset().top;
-        
-        function scroll() {
-          if ($(window).scrollTop() >= origOffsetY) {
-            $('.menu').addClass('sticky');
-            $('.content').addClass('menu-padding');
-          } else {
-            $('.menu').removeClass('sticky');
-            $('.content').removeClass('menu-padding');
-          }
-        }
-        
-        document.onscroll = scroll;
-      })
-    </script>
   </body>
 </html>
 

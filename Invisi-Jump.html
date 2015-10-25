@@ -1,3 +1,20 @@
+<!-- This program is a game in which the player has to jump higher and higher from platform to platform 
+with a twist. The platforms are invisible and a minimap in the top right tells you their positions relative to 
+your character.
+Copyright (C) 2015  Joshua Gil
+
+This program is free software: you can redistribute it and/or modify 
+it under the terms of the GNU General Public License as published by 
+the Free Software Foundation, either version 3 of the License, or 
+(at your option) any later version. 
+ 
+This program is distributed in the hope that it will be useful, 
+but WITHOUT ANY WARRANTY; without even the implied warranty of 
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the 
+GNU General Public License for more details. 
+
+You should have received a copy of the GNU General Public License 
+along with this program.  If not, see <http://www.gnu.org/licenses/>. -->
 <!DOCTYPE html>
 <html>  
   <head>  
@@ -33,10 +50,319 @@
           </nav>  
         </div>  
         <div class=".col-xs-9">  
-          <div class="content">  
+          <div class="content">
+            <p>Invisi Jump is a game I made in html5 using canvas that involves jumping higher and higher from platform to platform with a twist. The platforms are invisible and a minimap in the top right tells you their positions relative to your character.</p>
+            <div id="container" class="pull-right" style="position: relative; width: 360px; height: 400px">
+              <canvas width="300" height="400" id="game">
+              </canvas>
+              <canvas width="60" height="80" id="minimap" style="position: absolute; top: 0px; left: 240px;">
+              </canvas>
+            </div>
           </div>  
         </div>  
       </div>  
-    </div>  
+    </div>
+    <script>
+      if (!window.requestAnimationFrame) {
+				window.requestAnimationFrame = (function() {
+					return window.webkitRequestAnimationFrame ||
+						window.mozRequestAnimationFrame ||
+						window.oRequestAnimationFrame ||
+						window.msRequestAnimationFrame ||
+						function(callback, element) {
+							window.setTimeout(callback, 1000 / 30);
+						}
+				})();
+			}
+			function randomInt(min, max){
+				return Math.floor(Math.random() * (max - min + 1) + min);
+			}
+			var highScore = localStorage.getItem("highScore");
+			var keys = [];
+			var canvas = document.getElementById('game');
+			var ctx = canvas.getContext('2d');
+			var minimap = document.getElementById('minimap');
+			var ctx2 = minimap.getContext('2d');
+			var velY = 0;
+			var highestPointObtained = 0;
+			var middleReached = false;
+			var score = 0;
+			var lost = false;
+			var restartButton;
+			var jumped = true;
+			var highestPointUpdated = false;
+			var reachedPlatform = 0;
+			var jumpHeld = false;
+			minimap.style.top = "0px";
+			minimap.style.position = "absolute";
+			function Rect(x, y, width, height, fill, context) {
+				this.x = x;
+				this.y = y;
+				this.width = width;
+				this.height = height;
+				this.fill = fill;
+				this.ctx = context || ctx;
+				if (context) {
+					this.canvasHeight = 80;
+				} else {
+					this.canvasHeight = 400;
+				}
+			}
+			function RoundedRect(x, y, width, height, fill) {
+				this.x = x;
+				this.y = y;
+				this.width = width;
+				this.height = height;
+				this.fill = fill;
+				this.radius = 5;
+			}
+			Rect.prototype.draw = function() {
+				this.ctx.fillStyle = this.fill;
+				this.ctx.fillRect(this.x, this.y, this.width, this.height);
+			}
+			RoundedRect.prototype.draw = function() {
+				ctx.fillStyle = this.fill;
+				ctx.beginPath();
+				ctx.moveTo(this.x + this.radius, this.y);
+				ctx.lineTo(this.x + this.width - this.radius, this.y);
+				ctx.quadraticCurveTo(this.x + this.width, this.y, this.x + this.width, this.y + this.radius);
+				ctx.lineTo(this.x + this.width, this.y + this.height - this.radius);
+				ctx.quadraticCurveTo(this.x + this.width, this.y + this.height, this.x + this.width - this.radius, this.y + this.height);
+				ctx.lineTo(this.x + this.radius, this.y + this.height);
+				ctx.quadraticCurveTo(this.x, this.y + this.height, this.x, this.y + this.height - this.radius);
+				ctx.lineTo(this.x, this.y + this.radius);
+				ctx.quadraticCurveTo(this.x, this.y, this.x + this.radius, this.y);
+				ctx.closePath();
+				ctx.fill();
+      }
+			var player = new Rect(140, 360, 20, 20, "#4A3197");
+			var platforms = [];
+			var miniplatforms = [];
+			var back = new Rect(0, 0, canvas.width, canvas.height, "#000000");
+			var minimapback = new Rect(0, 0, 60, 80, "#BFBFBF", ctx2);
+			function start() {
+				checkPlatforms();
+				loop();
+				addHandlers();
+			}
+			function adjustPlatforms(amount) {
+				for (var a = 0; a < platforms.length; a++) {
+					platforms[a].y += amount;
+					miniplatforms[a].y += amount / 5;
+				}
+			}
+			function checkPlatforms() {
+				for (var a = 0; a < platforms.length; a++) {
+					if (platforms[a].y >= 400) {
+						platforms.splice(a, 1);
+						miniplatforms.splice(a, 1);
+					}
+				}
+				if (platforms.length === 0) {
+					addPlatform(0, 380, 300, 20, "#FF0000");
+				}
+				var platformY = platforms[platforms.length - 1].y - 100;
+				while (platforms.length < 5) {
+					addPlatform("random", platformY, "random", 20, "#FFFFFF");
+					platformY = platforms[platforms.length - 1].y - 100;
+				}
+			}
+			function addPlatform(X, Y, Width, Height, Fill) {
+				var x;
+				var y = Y;
+				var width;
+				var height = Height;
+				if (Width === "random") {
+					width = randomInt(5, 10) * 10;
+				} else {
+					width = Width;
+				}
+				if (X === "random") {
+					x = randomInt(5, 25 - (width / 10)) * 10;
+				} else {
+					x = X;
+				}
+				platforms.push(new Rect(x, y, width, height, Fill));
+				miniplatforms.push(new Rect(x / 5, y / 5, width / 5, height / 5, Fill, ctx2));
+			}
+			function endGame() {
+				canvas.addEventListener('click', function(e) {
+					if (restartButton.x + restartButton.width >= e.offsetX) {
+						if (restartButton.x <= e.offsetX) {
+							if (restartButton.y + restartButton.height >= e.offsetY) {
+								if (restartButton.y <= e.offsetY) {
+									location.reload();
+								}
+							}
+						}
+					}
+				}, false);
+			}
+			function toInt(expon) {
+				var splitNumber = expon.toString().split("e");
+				var result;
+				if (splitNumber[1]) {
+					var regexMatch = splitNumber[0].match(/^([^.]+)\.?(.*)$/);
+					result =
+						regexMatch[1] +
+						regexMatch[2] +
+						Array(splitNumber[1] - regexMatch[2].length + 1).join("0");
+				} else {
+					result = splitNumber[0];
+				}
+				return parseInt(result);
+			}
+			function update() {
+				checkPlatforms();
+				if (keys[37]) {
+					if (!checkLeftCollision()) {
+						player.x -= 2;
+					}
+				}
+				if (keys[39]) {
+					if (!checkRightCollision()) {
+						player.x += 2;
+					}
+				}
+				if (keys[38]) {
+					if (!jumped) {
+						if (checkBottomCollision()) {
+							velY = 60;
+						}
+						jumped = true;
+					}
+				}
+				if (velY > 0) {
+					if (player.y === 200) {
+						middleReached = true;
+						adjustPlatforms(2);
+						highestPointUpdated = false;
+					} else {
+						player.y -= 2;
+					}
+					velY--;
+				} else if (!checkBottomCollision()) {
+					player.y += 2;
+				}
+				if (checkBottomCollision() && !middleReached) {
+					if (highestPointObtained === 0 && player.y === 260) {
+						highestPointObtained = 100;
+						score++;
+					}
+				}
+				if (checkBottomCollision() && middleReached && !highestPointUpdated) {
+					if (player.y === 220) {
+						highestPointObtained += 100;
+						score++;
+						highestPointUpdated = true;
+					}
+				}
+				if (player.y === 400) {
+					lost = true;
+				}
+			};
+			function addHandlers() {
+				document.body.addEventListener("keydown", function(e) {
+					if (!jumpHeld || e.keyCode !== 38) {
+						keys[e.keyCode] = true;
+						if (e.keyCode === 38) {
+							if (velY > 0) {
+								jumped = true;
+							} else {
+								jumpHeld = true;
+								jumped = false;
+							}
+						}
+					}
+				});
+				document.body.addEventListener("keyup", function(e) {
+					if (e.keyCode === 38) {
+						jumpHeld = false;
+					}
+					keys[e.keyCode] = false;
+				});
+			}
+			function loop() {
+				update();
+				draw();
+				if (!lost) {
+					window.requestAnimationFrame(loop);
+				}
+			}
+			function checkBottomCollision() {
+				for (var a = 0; a < platforms.length; a++) {
+					if (platforms[a].y === player.y + 20) {
+						if (player.x + 20 >= platforms[a].x && player.x <= platforms[a].x + platforms[a].width) {
+							return true;
+						}
+					}
+				}
+				return false;
+			}
+			function checkTopCollision() {
+				for (var a = 0; a < platforms.length; a++) {
+					if (platforms[a].y - 20 === player.y) {
+						if (player.x + 20 >= platforms[a].x && player.x <= platforms[a].x + platforms[a].width) {
+							return true;
+						}
+					}
+				}
+				return false;
+			}
+			function checkLeftCollision() {
+				if (player.x === 0) {
+					return true;
+				}
+				return false;
+			}
+			function checkRightCollision() {
+				if (player.x === canvas.width - 20) {
+					return true;
+				}
+				return false;
+			}
+			function draw() {
+				ctx.clearRect(0, 0, canvas.width, canvas.height);
+				minimapback.draw();
+				back.draw();
+				for (var a = 0; a < platforms.length; a++) {
+					miniplatforms[a].draw();
+				}
+				player.draw();
+				if (lost) {
+					var restartBox = new RoundedRect(50, 100, 200, 200, "#00FFFF");
+					restartBox.draw();
+					ctx.font = '16pt Calibri';
+					ctx.textAlign = 'center';
+					ctx.fillStyle = '#FF0000';
+					if (score.toString().length > 8) {
+						score = score.toExponential();
+					}
+					ctx.fillText("Score: " + score, 150, 130);
+					if (highScore < toInt(score)) {
+						highScore = toInt(score);
+						localStorage.setItem("highScore", highScore);
+					}
+					if (highScore.toString().length > 8) {
+						highScore = highScore.toExponential();
+					}
+					ctx.fillText("HighScore: " + highScore, 150, 160);
+					restartButton = new Rect(100, 240, 100, 50, "#FF0000");
+					restartButton.draw();
+					ctx.fillStyle = "#000000";
+					ctx.fillText("Restart", 150, 270);
+					endGame();
+				} else {
+					ctx.font = 'bold 14pt Calibri';
+					ctx.fillStyle = '#FF0000';
+					ctx.fillText("Score: " + score, 5, 20);
+					if (highScore === null || highScore === "null") {
+						highScore = 0;
+					}
+					ctx.fillText("HighScore: " + highScore, 5, 40);
+				}
+			}
+			start();
+    </script>
   </body>  
 </html>  

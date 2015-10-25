@@ -1,23 +1,39 @@
+<!-- This program is a game in which the player starts with the 4 starter elements (air, earth, fire, water) 
+and has to combine them with each other many times to eventually make lots of the things that exist in the real world.
+Copyright (C) 2015  Joshua Gil
+
+This program is free software: you can redistribute it and/or modify 
+it under the terms of the GNU General Public License as published by 
+the Free Software Foundation, either version 3 of the License, or 
+(at your option) any later version. 
+ 
+This program is distributed in the hope that it will be useful, 
+but WITHOUT ANY WARRANTY; without even the implied warranty of 
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the 
+GNU General Public License for more details. 
+
+You should have received a copy of the GNU General Public License 
+along with this program.  If not, see <http://www.gnu.org/licenses/>. -->
 <!DOCTYPE html> 
 <html> 
-  <head> 
-    <title>Gillies Games</title> 
-    <script type="text/javascript" src="https://code.jquery.com/jquery-2.1.4.min.js"></script> <!-- adds the jquery script -->
-    <script type="text/javascript" src="https://code.jquery.com/ui/1.11.4/jquery-ui.min.js"></script> <!-- adds the jquery ui script -->
-    <meta name="viewport" content="width=device-width, initial-scale=1"> <!-- adds bootstrap viewport for touch zooming on touch devices --> 
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/3.0.3/normalize.css"> <!-- adds normalize.css --> 
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css"> <!-- adds the bootstrap css --> 
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap-theme.min.css"> <!-- adds the bootstrap theme --> 
-    <style>
-      * { 
-        font-family: Calibri, sans-serif; 
-      }
-      #container {
-        position: relative;
-        width: 834px;
-        height: 424px;
-      }
-      #hint-output {
+	<head> 
+		<title>Gillies Games</title> 
+		<script type="text/javascript" src="https://code.jquery.com/jquery-2.1.4.min.js"></script> <!-- adds the jquery script -->
+		<script type="text/javascript" src="https://code.jquery.com/ui/1.11.4/jquery-ui.min.js"></script> <!-- adds the jquery ui script -->
+		<meta name="viewport" content="width=device-width, initial-scale=1"> <!-- adds bootstrap viewport for touch zooming on touch devices --> 
+		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/3.0.3/normalize.css"> <!-- adds normalize.css --> 
+		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css"> <!-- adds the bootstrap css --> 
+		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap-theme.min.css"> <!-- adds the bootstrap theme --> 
+		<style>
+			* { 
+				font-family: Calibri, sans-serif; 
+			}
+			#container {
+				position: relative;
+				width: 834px;
+				height: 424px;
+			}
+			#hint-output {
 				position: absolute;
 				left: 0px;
 				top: 0px;
@@ -33,7 +49,7 @@
 				margin-top: 24px;
 				width: 217px;
 				height: 400px;
-    		overflow-y: auto;
+				overflow-y: auto;
 			}
 			#drag-area {
 				position: relative;
@@ -80,7 +96,7 @@
 				margin-top: 24px;
 				height: 400px;
 				background-color: #C0C0C0;
-    		overflow-y: auto;
+				overflow-y: auto;
 			}
 			.noselect {
 				-webkit-touch-callout: none;
@@ -91,18 +107,18 @@
 				user-select: none;
 			}
 			.input {
-    		position: absolute;
+				position: absolute;
 				width: 50px;
 				height: 50px;
 				background-color: red;
 			}
-  		#reset {
-    		background-color: red;
+			#reset {
+				background-color: red;
 				position: absolute;
 				width: 50px;
 				height: 50px;
 				top: 350px;
-  		}
+			}
 			#hint {
 				position: absolute;
 				background-color: yellow;
@@ -110,12 +126,12 @@
 				height: 50px;
 				left: 350px;
 			}
-  		.gap-hider {
-    		width: 17px;
+			.gap-hider {
+				width: 17px;
 				float: right;
-    		height: 400px;
-    		background-color: white;
-  		}
+				height: 400px;
+				background-color: white;
+			}
 			.drag-text {
 				display: inline-block;
 				line-height: 15px;
@@ -128,27 +144,27 @@
 			.button-text {
 				line-height: 15px;
 				display: table-cell;
-        vertical-align: middle;
+				vertical-align: middle;
 				text-align: center;
-        word-break: break-all;
-        padding: 0px;
+				word-break: break-all;
+				padding: 0px;
 			}
 			.button {
 				text-align: center;
-        display: table;
+				display: table;
 				cursor: hand;
 				cursor: pointer;
 			}
-      #count {
-        margin-left: auto;
-        margin-right: auto;
-        margin-top: 365px;
+			#count {
+				margin-left: auto;
+				margin-right: auto;
+				margin-top: 365px;
 				cursor: default;
-      }
-      #count-text {
-        text-align: center;
-        font-size: 24px;
-      }
+			}
+			#count-text {
+				text-align: center;
+				font-size: 24px;
+			}
 			#bin {
 				position: absolute;
 				background-color: red;
@@ -157,109 +173,109 @@
 				left: 350px;
 				top: 350px;
 			}
-    </style> 
-  </head> 
-  <body> 
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script> <!-- adds the bootstrap script --> 
-    <div class="container"> 
-      <div class="row"> 
-        <div class=".col-xs-12"> 
-          <div class="page-header"> 
-            <h1 style="text-align: center;">Gillies Games</h1> 
-          </div> 
-        </div> 
-      </div> 
-      <div class="row"> 
-        <div class=".col-xs-3"> 
-          <nav class="menu"> 
-            <ul class="nav nav-pills nav-stacked pull-left"> 
-              <li role="presentation"><a href="https://gilliesgames.github.io">Home</a></li>
-              <li role="presentation" class="active"><a href="">Element Master</a></li>
-            </ul> 
-          </nav> 
-        </div> 
-        <div class=".col-xs-9"> 
-          <div class="content"> 
-            <p>Element Master is a game that i made using jquery and html that involves combining the 4 basic elements (Air, Earth, Fire Water) together to eventually make loads of other elements. Press the an element on the right to spawn it on the left then drag and drop the spawned element onto another spawned element to create a new element. Drag and drop a spawned element onto the bin to get rid of it. Type an element name in the search bar to easily find it. Press the hint button to get a hint and press the reset button to reset your progress (careful this is permanent).</p>
-            <div id="container" class="pull-right">
-              <input id="hint-output" disabled type="text">
-              <div id="drag-area">
-                <div id="bin" class="button">
-                  <p class="button-text noselect">BIN</p>
-                </div>
-                <div id="reset" class="button">
-                  <p class="button-text noselect">RESET</p>
-                </div>
-                <div id="hint" class="button">
-                  <p class="button-text noselect">HINT</p>
-                </div>
-                <div id="count">
-                  <p id="count-text" class="noselect"></p>
-                </div>
-              </div>
-              <input id="search" type="text" placeholder="search">
-              <div id="input-area">
-                <div class="gap-hider">
-                </div>
-              </div>
-              <div id="timeline">
-                <div class="gap-hider">
-                </div>
-              </div>
-            </div>
-          </div> 
-        </div> 
-      </div> 
-    </div> 
-    <script type="text/javascript"> 
-      var menu; 
-      var origOffsetY; 
-      $(document).ready(function() { // sticky nav menu thanks to Yeco at stack overflow.com (http://stackoverflow.com/questions/21301316/how-to-bootstrap-navbar-static-to-fixed-on-scroll) 
-        menu = $('.menu'); 
-        origOffsetY = menu.offset().top; 
-        function scroll() { 
-          if ($(window).scrollTop() >= origOffsetY) { 
-            $('.menu').addClass('sticky'); 
-            $('.content').addClass('menu-padding'); 
-          } else { 
-            $('.menu').removeClass('sticky'); 
-            $('.content').removeClass('menu-padding'); 
-          } 
-        } 
-        document.onscroll = scroll; 
-      }) 
-    </script> 
-    <script type="text/javascript">
-      var combinations = [];
-      var allElements = ["Fire", "Water", "Earth", "Air"];
-      var time = 0;
-      function combine(target1, target2, result) {
-        var combination = $(target2).filter(function(index, element) {
-          if (this === target1) {
-            return false;
-          }
-          if ($(this).position().left > $(target1).position().left - 50 && $(this).position().left < $(target1).position().left + 50) {
-            if ($(this).position().top > $(target1).position().top - 50 && $(this).position().top < $(target1).position().top + 50) {
-              return true;
-            } else {
-              return false;
-            }
-          } else {
-            return false;
-          }
-        });
-        var length = combination.length;
+		</style> 
+	</head> 
+	<body> 
+		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script> <!-- adds the bootstrap script --> 
+		<div class="container"> 
+			<div class="row"> 
+				<div class=".col-xs-12"> 
+					<div class="page-header"> 
+						<h1 style="text-align: center;">Gillies Games</h1> 
+					</div> 
+				</div> 
+			</div> 
+			<div class="row"> 
+				<div class=".col-xs-3"> 
+					<nav class="menu"> 
+						<ul class="nav nav-pills nav-stacked pull-left"> 
+							<li role="presentation"><a href="https://gilliesgames.github.io">Home</a></li>
+							<li role="presentation" class="active"><a href="">Element Master</a></li>
+						</ul> 
+					</nav> 
+				</div> 
+				<div class=".col-xs-9"> 
+					<div class="content"> 
+						<p>Element Master is a game that i made using jquery and html that involves combining the 4 basic elements (Air, Earth, Fire Water) together to eventually make loads of other elements. Press the an element on the right to spawn it on the left then drag and drop the spawned element onto another spawned element to create a new element. Drag and drop a spawned element onto the bin to get rid of it. Type an element name in the search bar to easily find it. Press the hint button to get a hint and press the reset button to reset your progress (careful this is permanent).</p>
+						<div id="container" class="pull-right">
+							<input id="hint-output" disabled type="text">
+							<div id="drag-area">
+								<div id="bin" class="button">
+									<p class="button-text noselect">BIN</p>
+								</div>
+								<div id="reset" class="button">
+									<p class="button-text noselect">RESET</p>
+								</div>
+								<div id="hint" class="button">
+									<p class="button-text noselect">HINT</p>
+								</div>
+								<div id="count">
+									<p id="count-text" class="noselect"></p>
+								</div>
+							</div>
+							<input id="search" type="text" placeholder="search">
+							<div id="input-area">
+								<div class="gap-hider">
+								</div>
+							</div>
+							<div id="timeline">
+								<div class="gap-hider">
+								</div>
+							</div>
+						</div>
+					</div> 
+				</div> 
+			</div> 
+		</div> 
+		<script type="text/javascript"> 
+			var menu; 
+			var origOffsetY; 
+			$(document).ready(function() { // sticky nav menu thanks to Yeco at stack overflow.com (http://stackoverflow.com/questions/21301316/how-to-bootstrap-navbar-static-to-fixed-on-scroll) 
+				menu = $('.menu'); 
+				origOffsetY = menu.offset().top; 
+				function scroll() { 
+					if ($(window).scrollTop() >= origOffsetY) { 
+						$('.menu').addClass('sticky'); 
+						$('.content').addClass('menu-padding'); 
+					} else { 
+						$('.menu').removeClass('sticky'); 
+						$('.content').removeClass('menu-padding'); 
+					} 
+				} 
+				document.onscroll = scroll; 
+			}); 
+		</script> 
+		<script type="text/javascript">
+			var combinations = [];
+			var allElements = ["Fire", "Water", "Earth", "Air"];
+			var time = 0;
+			function combine(target1, target2, result) {
+				var combination = $(target2).filter(function(index, element) {
+					if (this === target1) {
+						return false;
+					}
+					if ($(this).position().left > $(target1).position().left - 50 && $(this).position().left < $(target1).position().left + 50) {
+						if ($(this).position().top > $(target1).position().top - 50 && $(this).position().top < $(target1).position().top + 50) {
+							return true;
+						} else {
+							return false;
+						}
+					} else {
+						return false;
+					}
+				});
+				var length = combination.length;
 				if (length < 1) {
 					return false;
 				}
 				if (length > 1) {
-          combination = $(combination).eq(0);
+					combination = $(combination).eq(0);
 				}
 				if (!$("#" + result).length) {
 					var components = [$(target1).attr("class").split(" ")[1], target2.split(".")[1]];
 					components.sort();
 					var $event = $("<p class='event'>" + components[0] + " + " + components[1] + " &#8594; " + result + "</p>");
-        	$("#timeline").append($event);
+					$("#timeline").append($event);
 					if (localStorage.getItem("events") != "") {
 						localStorage.setItem("events", localStorage.getItem("events") + " ");
 					}
@@ -268,49 +284,49 @@
 				$(combination).remove();
 				$(target1).remove();
 				add(result);
-        addInputClick(result);
+				addInputClick(result);
 				$("#count-text").text($(".input").length + "/" + allElements.length);
 				localStorage.setItem("elements", localStorage.getItem("elements") + " " + result);
-      }
-      function bin(tar) {
-        if ($(tar).position().left > $("#bin").position().left - 50 && $(tar).position().top > $("#bin").position().top - 50) {
-          $(tar).remove();
-        }
-  		}
-      function addInputClick(element) {
-        var ele;
-        if (element) {
-          ele = "#" + element;
-        } else {
-          ele = ".input";
-        }
-        $(ele).click(function(e) {
-          $("#drag-area").append("<div class='drag " + this.id + "' style='left: 0px; top: 0px;'><p class='drag-text'>" + this.id + "</p></div>");
-          $(".drag").draggable({ containment: "#drag-area", cursor: "move", addClasses: false });
-          $("." + this.id).mouseup(function(e) {
-            var $target = this;
-            bin($target);
-            addCombine($target);
-          });
+			}
+			function bin(tar) {
+				if ($(tar).position().left > $("#bin").position().left - 50 && $(tar).position().top > $("#bin").position().top - 50) {
+					$(tar).remove();
+				}
+			}
+			function addInputClick(element) {
+				var ele;
+				if (element) {
+					ele = "#" + element;
+				} else {
+					ele = ".input";
+				}
+				$(ele).click(function(e) {
+					$("#drag-area").append("<div class='drag " + this.id + "' style='left: 0px; top: 0px;'><p class='drag-text'>" + this.id + "</p></div>");
+					$(".drag").draggable({ containment: "#drag-area", cursor: "move", addClasses: false });
+					$("." + this.id).mouseup(function(e) {
+						var $target = this;
+						bin($target);
+						addCombine($target);
+					});
 				});
-      }
-  		function add(element) {
-  		  if ($("#" + element).length) {
-    		  return false;
-    		}
-    		var $inp = $("<div><p>" + element + "</p></div>");
-    		var number_of_inputs = $(".input").length;
-    		$($inp).addClass("input");
-    		$($inp).addClass("noselect");
+			}
+			function add(element) {
+				if ($("#" + element).length) {
+					return false;
+				}
+				var $inp = $("<div><p>" + element + "</p></div>");
+				var number_of_inputs = $(".input").length;
+				$($inp).addClass("input");
+				$($inp).addClass("noselect");
 				$($inp).addClass("button");
-    		$($inp).attr("id", element);
-    		$($inp).children().addClass("button-text");
-    		if (number_of_inputs == 0) {
-    		  $($inp).css("top", "8px");
-    		} else {
+				$($inp).attr("id", element);
+				$($inp).children().addClass("button-text");
+				if (number_of_inputs == 0) {
+					$($inp).css("top", "8px");
+				} else {
 					var elementArray = [element]
 					$(".input").each(function() {
-					  elementArray.push($(this).attr("id"));
+						elementArray.push($(this).attr("id"));
 					});
 					elementArray.sort();
 					var elementsPositioned = 0;
@@ -351,18 +367,18 @@
 						}
 						elementsPositioned++;
 					}
-    		}
-    		$("#input-area").append($inp);
-  		}
-      function addCombine(e) {
-        for (var a = 0; a < combinations.length; a++) {
-          if ($(e).hasClass(combinations[a][0])) {
-            combine(e, "." + combinations[a][1], combinations[a][2]);
-          } else if ($(e).hasClass(combinations[a][1])) {
-            combine(e, "." + combinations[a][0], combinations[a][2]);
-          }
-        }
-      }
+				}
+				$("#input-area").append($inp);
+			}
+			function addCombine(e) {
+				for (var a = 0; a < combinations.length; a++) {
+					if ($(e).hasClass(combinations[a][0])) {
+						combine(e, "." + combinations[a][1], combinations[a][2]);
+					} else if ($(e).hasClass(combinations[a][1])) {
+						combine(e, "." + combinations[a][0], combinations[a][2]);
+					}
+				}
+			}
 			function addElement(component1, component2, ele) {
 				if (allElements.indexOf(ele) === -1) {
 					allElements.push(ele);
@@ -593,13 +609,13 @@
 				addElement("Water", "Water", "Ocean");
 				addElement("Water", "Wood", "Boat");
 				addElement("Wheel", "Wood", "Cart");
-        if (localStorage.getItem("elements") == null || localStorage.getItem("elements") == "null") {
+				if (localStorage.getItem("elements") == null || localStorage.getItem("elements") == "null") {
 					localStorage.setItem("elements", "Fire Water Earth Air");
-    		}
-    		var elementsArray = localStorage.getItem("elements").split(" ");
-    		for (var b = 0; b < elementsArray.length; b++) {
-  			  add(elementsArray[b]);
-    		}
+				}
+				var elementsArray = localStorage.getItem("elements").split(" ");
+				for (var b = 0; b < elementsArray.length; b++) {
+					add(elementsArray[b]);
+				}
 				if (localStorage.getItem("events") == null || localStorage.getItem("events") == "null") {
 					localStorage.setItem("events", "");
 				}
@@ -612,10 +628,10 @@
 				}
 				$(".drag").draggable({ containment: "#drag-area", cursor: "move", addClasses: false });
 				$("#reset").click(function(e) {
-  			  localStorage.setItem("elements", null);
+					localStorage.setItem("elements", null);
 					localStorage.setItem("events", null);
-			    location.reload();
-    		});
+					location.reload();
+				});
 				$("#hint").click(function(e) {
 					var missingElements = [];
 					for (var a = 4; a < allElements.length; a++) {
@@ -669,13 +685,13 @@
 						}
 					}
 				});
-        var count = $(".input").length;
-        $("#count-text").text(count + "/" + allElements.length);
-        $("#search").on("input", function(e) {
+				var count = $(".input").length;
+				$("#count-text").text(count + "/" + allElements.length);
+				$("#search").on("input", function(e) {
 					searchElements($("#search").val().toLowerCase());
 				});
 				addInputClick();
 			});
-    </script>
-  </body> 
+		</script>
+	</body> 
 </html>
